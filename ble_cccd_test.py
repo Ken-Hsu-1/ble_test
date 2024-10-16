@@ -40,7 +40,7 @@ num= int(number)
 print (addr[num])
 #
 print ("Connecting...")
-dev = Peripheral(addr[num], 'random')
+dev = Peripheral(addr[num], 'random').withDelegate(MyDelegate())
 #
 print ("Services...")
 for svc in dev.services:
