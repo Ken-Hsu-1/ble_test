@@ -31,6 +31,8 @@ for dev in devices:
     n += 1
     for (adtype, desc, value) in dev.getScanData():
         print ("  %s = %s" % (desc, value))
+        if desc == "Complete Local Name":
+            print ("00000000000000000000000000000000000000000000")
 
 number = input('Enter your device number: ')
 print ('Device', number)
@@ -54,15 +56,18 @@ try:
             print (ch.read())
 
     print ('ask for notify')
-    ch_cccd = svc.getCharacteristics(uuid=UUID(0x2902))[0]
-    ch_cccd.write(0x0001)
+    for desriptor in dev.getDescriptors():
+        if (desriptor.uuid == 0x2902):
+            CCCD_handle = desriptor.handle
+            dev.writeCharacteristic(CCCD_handle, bytes([0, 1]))
+
+    print("notify set completed")
 
     while True:
         if dev.waitForNotifications(10.0):
         # handleNotification() was called
             continue
         print("Waiting...")
-
 
 #
 finally:
