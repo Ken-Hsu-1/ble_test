@@ -12,10 +12,9 @@ class ScanDelegate(DefaultDelegate):
             print ("Received new data from", dev.addr)
 
 class MyDelegate(DefaultDelegate):
-    def __init__(self, params):
+    def __init__(self):
         DefaultDelegate.__init__(self)
         # ... initialise here
-
     def handleNotification(self, cHandle, data):
         print ("notify new data : ", data)
         # ... perhaps check cHandle
