@@ -67,7 +67,7 @@ try:
     print("notify set completed")
 
     while True:
-        if dev.waitForNotifications(10.0):
+        if dev.waitForNotifications(1.0):
         # handleNotification() was called
             continue
         print("Waiting...")
