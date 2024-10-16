@@ -24,14 +24,17 @@ scanner = Scanner().withDelegate(ScanDelegate())
 devices = scanner.scan(10.0)
 n=0
 addr= []
+was_find = 0
 for dev in devices:
     print ("%d: Device %s (%s), RSSI=%d dB" % (n, dev.addr, dev.addrType, dev.rssi))
     addr.append(dev.addr)
     n += 1
     for (adtype, desc, value) in dev.getScanData():
         print ("  %s = %s" % (desc, value))
-        if desc == "Complete Local Name":
-            print ("00000000000000000000000000000000000000000000")
+        if (desc == "Complete Local Name") & (value == "Ken der S21 FE"):
+            was_find = 1
+    if was_find:
+        break
 
 number = input('Enter your device number: ')
 print ('Device', number)
@@ -39,7 +42,8 @@ num= int(number)
 print (addr[num])
 #
 print ("Connecting...")
-dev = Peripheral(addr[num], 'random').withDelegate(MyDelegate())
+dev = Peripheral(addr[num], 'random')
+dev.setDelegate(MyDelegate())
 #
 print ("Services...")
 for svc in dev.services:
